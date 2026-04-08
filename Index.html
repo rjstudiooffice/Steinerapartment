@@ -104,11 +104,11 @@
 
   .slide.active { opacity: 1; }
 
-  /* Placeholder slides with gradient backgrounds */
-  .slide-1 { background: linear-gradient(135deg, #2c4020 0%, #1a2e10 40%, #3a5a28 100%); }
-  .slide-2 { background: linear-gradient(135deg, #3a2a1a 0%, #4a3820 40%, #2a1e10 100%); }
-  .slide-3 { background: linear-gradient(135deg, #1a2e3a 0%, #0e2030 40%, #2a4050 100%); }
-  .slide-4 { background: linear-gradient(135deg, #3a2a20 0%, #2a1c14 40%, #4a3428 100%); }
+  /* Fallback background wenn kein Foto gesetzt */
+  .slide-1 { background-color: #2c4020; }
+  .slide-2 { background-color: #3a2a1a; }
+  .slide-3 { background-color: #1a2e3a; }
+  .slide-4 { background-color: #3a2a20; }
 
   /* Dark overlay for text readability */
   .hero-overlay {
@@ -729,16 +729,16 @@
   <!-- SLIDES – ersetze background-image mit deinen echten Fotos -->
   <!-- Beispiel: style="background-image: url('foto1.jpg')" -->
   <div class="slide slide-1 active" id="slide-0"
-       style="background-image: url('IMG_0409.jpeg')">
+       style="background-image: url('IMG_0410.jpeg'); background-size: cover; background-position: center; background-repeat: no-repeat;">
   </div>
   <div class="slide slide-2" id="slide-1"
-       style="background-image: url('IMG_0410.jpeg')">
+       style="background-image: url('IMG_0414.jpeg'); background-size: cover; background-position: center; background-repeat: no-repeat;">
   </div>
   <div class="slide slide-3" id="slide-2"
-       style="background-image: url('IMG_0414.jpeg')">
+       style="background-image: url('IMG_0409.jpeg'); background-size: cover; background-position: center; background-repeat: no-repeat;">
   </div>
   <div class="slide slide-4" id="slide-3"
-       style="background-image: url('IMG_0419.jpeg')">
+       style="background-image: url('IMG_0419.jpeg'); background-size: cover; background-position: center; background-repeat: no-repeat;">
   </div>
 
   <div class="hero-overlay"></div>
@@ -788,7 +788,7 @@
         <em>eine Unterkunft.</em>
       </h2>
       <p class="intro-text">
-        Bei uns erwartet dich ein Aufenthalt der unter die Haut geht.
+        Bei Lisa Steiner erwartet dich ein Aufenthalt der unter die Haut geht.
         Rustikales Flair, persönliche Betreuung und zwei außergewöhnliche Locations –
         am traumhaften Wörthersee und in der Steiermark, direkt am Red Bull Ring.
       </p>
