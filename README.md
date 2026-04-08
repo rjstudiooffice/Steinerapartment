@@ -1,1 +1,1113 @@
-# Steinerapartment
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gästehaus Steiner – Velden am Wörthersee & Spielberg</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream:  #f5efe4;
+    --cream2: #ede4d4;
+    --dark:   #1a1610;
+    --green:  #2c4020;
+    --gold:   #a8834a;
+    --mid:    #7a7060;
+    --light:  #c8bfb0;
+    --border: rgba(26,22,16,0.1);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--dark);
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.9s ease, transform 0.9s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .d1 { transition-delay: 0.15s; }
+  .d2 { transition-delay: 0.3s; }
+  .d3 { transition-delay: 0.45s; }
+
+  /* ══ NAV ══ */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+    padding: 28px 52px;
+    display: flex; justify-content: space-between; align-items: center;
+    transition: all 0.4s;
+  }
+
+  nav.solid {
+    background: rgba(245,239,228,0.96);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 52px;
+  }
+
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px; font-weight: 400; font-style: italic;
+    color: #fff; text-decoration: none; transition: color 0.4s;
+  }
+
+  nav.solid .nav-logo { color: var(--dark); }
+
+  .nav-links { display: flex; align-items: center; gap: 4px; list-style: none; }
+
+  .nav-links a {
+    font-size: 10px; font-weight: 300;
+    letter-spacing: 2px; text-transform: uppercase;
+    color: rgba(255,255,255,0.6); text-decoration: none;
+    padding: 8px 14px; transition: color 0.2s;
+  }
+
+  nav.solid .nav-links a { color: var(--mid); }
+
+  .nav-links a:hover { color: #fff; }
+  nav.solid .nav-links a:hover { color: var(--dark); }
+
+  .nav-book {
+    background: rgba(255,255,255,0.15) !important;
+    color: #fff !important;
+    border: 1px solid rgba(255,255,255,0.3) !important;
+    transition: all 0.3s !important;
+  }
+
+  nav.solid .nav-book {
+    background: var(--dark) !important;
+    color: var(--cream) !important;
+    border: none !important;
+  }
+
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+  .hamburger span { width: 22px; height: 1px; background: rgba(255,255,255,0.7); transition: background 0.4s; }
+  nav.solid .hamburger span { background: var(--dark); }
+
+  /* ══ HERO SLIDESHOW ══ */
+  .hero {
+    height: 100vh; min-height: 600px;
+    position: relative; overflow: hidden;
+  }
+
+  /* Slides */
+  .slide {
+    position: absolute; inset: 0;
+    background-size: cover; background-position: center;
+    opacity: 0; transition: opacity 1.2s ease;
+  }
+
+  .slide.active { opacity: 1; }
+
+  /* Placeholder slides with gradient backgrounds */
+  .slide-1 { background: linear-gradient(135deg, #2c4020 0%, #1a2e10 40%, #3a5a28 100%); }
+  .slide-2 { background: linear-gradient(135deg, #3a2a1a 0%, #4a3820 40%, #2a1e10 100%); }
+  .slide-3 { background: linear-gradient(135deg, #1a2e3a 0%, #0e2030 40%, #2a4050 100%); }
+  .slide-4 { background: linear-gradient(135deg, #3a2a20 0%, #2a1c14 40%, #4a3428 100%); }
+
+  /* Dark overlay for text readability */
+  .hero-overlay {
+    position: absolute; inset: 0; z-index: 2;
+    background: linear-gradient(
+      to bottom,
+      rgba(10,8,6,0.2) 0%,
+      rgba(10,8,6,0.35) 40%,
+      rgba(10,8,6,0.7) 100%
+    );
+  }
+
+  .hero-content {
+    position: absolute; bottom: 80px; left: 52px; right: 52px;
+    z-index: 3;
+    display: flex; justify-content: space-between; align-items: flex-end;
+  }
+
+  .hero-text-block {
+    max-width: 580px;
+  }
+
+  .hero-eyebrow {
+    font-size: 9px; font-weight: 400;
+    letter-spacing: 6px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 16px;
+    display: flex; align-items: center; gap: 12px;
+    opacity: 0; animation: fadeUp 1s ease 0.3s forwards;
+  }
+
+  .hero-eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--gold); }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(44px, 6vw, 80px);
+    font-weight: 300; line-height: 1.05;
+    color: #fff; margin-bottom: 16px;
+    opacity: 0; animation: fadeUp 1s ease 0.4s forwards;
+  }
+
+  .hero-title em { font-style: italic; color: rgba(255,255,255,0.75); display: block; }
+
+  .hero-sub {
+    font-size: 15px; font-weight: 300;
+    color: rgba(255,255,255,0.6); line-height: 1.8;
+    margin-bottom: 32px; max-width: 440px;
+    opacity: 0; animation: fadeUp 1s ease 0.5s forwards;
+  }
+
+  .hero-actions {
+    display: flex; gap: 12px;
+    opacity: 0; animation: fadeUp 1s ease 0.6s forwards;
+  }
+
+  .btn-light {
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: #fff; text-decoration: none;
+    font-size: 10px; font-weight: 400;
+    letter-spacing: 3px; text-transform: uppercase;
+    padding: 14px 28px; backdrop-filter: blur(8px);
+    transition: all 0.3s; display: inline-block;
+  }
+
+  .btn-light:hover { background: rgba(255,255,255,0.25); }
+
+  .btn-gold-solid {
+    background: var(--gold); color: #fff;
+    text-decoration: none;
+    font-size: 10px; font-weight: 400;
+    letter-spacing: 3px; text-transform: uppercase;
+    padding: 14px 28px; transition: all 0.3s; display: inline-block;
+  }
+
+  .btn-gold-solid:hover { background: #907040; transform: translateY(-1px); }
+
+  /* Slide navigation dots */
+  .slide-dots {
+    position: absolute; bottom: 32px; left: 50%;
+    transform: translateX(-50%); z-index: 4;
+    display: flex; gap: 8px;
+  }
+
+  .dot {
+    width: 24px; height: 2px;
+    background: rgba(255,255,255,0.3);
+    cursor: pointer; transition: all 0.3s;
+  }
+
+  .dot.active { background: #fff; width: 36px; }
+
+  /* Slide counter */
+  .slide-counter {
+    position: absolute; right: 52px; bottom: 88px;
+    z-index: 4; text-align: right;
+    opacity: 0; animation: fadeIn 1s ease 1s forwards;
+  }
+
+  @keyframes fadeIn { to { opacity: 1; } }
+
+  .sc-current {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 42px; font-weight: 300; font-style: italic;
+    color: rgba(255,255,255,0.3); line-height: 1;
+  }
+
+  .sc-total {
+    font-size: 10px; font-weight: 300;
+    letter-spacing: 2px; color: rgba(255,255,255,0.25);
+  }
+
+  /* Slide labels */
+  .slide-label {
+    position: absolute; right: 52px; top: 50%;
+    transform: translateY(-50%) rotate(90deg);
+    transform-origin: center center;
+    z-index: 4;
+    font-size: 8px; font-weight: 300;
+    letter-spacing: 4px; text-transform: uppercase;
+    color: rgba(255,255,255,0.25);
+    opacity: 0; animation: fadeIn 1s ease 0.8s forwards;
+    white-space: nowrap;
+  }
+
+  @keyframes fadeUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+
+  /* ══ INTRO ══ */
+  .intro { padding: 100px 0; background: var(--cream); }
+
+  .intro-inner {
+    max-width: 1100px; margin: 0 auto; padding: 0 52px;
+    display: grid; grid-template-columns: 1fr 1.4fr;
+    gap: 100px; align-items: center;
+  }
+
+  .intro-left { }
+
+  .intro-eyebrow {
+    font-size: 9px; font-weight: 400;
+    letter-spacing: 5px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 16px;
+  }
+
+  .intro-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(32px, 4vw, 50px);
+    font-weight: 300; line-height: 1.15;
+    color: var(--dark); margin-bottom: 24px;
+  }
+
+  .intro-title em { font-style: italic; color: var(--green); }
+
+  .intro-text {
+    font-size: 15px; font-weight: 300;
+    color: var(--mid); line-height: 1.9;
+    margin-bottom: 32px;
+  }
+
+  .intro-sig {
+    display: flex; align-items: center; gap: 16px;
+    padding-top: 24px; border-top: 1px solid var(--border);
+  }
+
+  .sig-avatar {
+    width: 48px; height: 48px; border-radius: 50%;
+    background: var(--green);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px; font-style: italic; font-weight: 300;
+    color: rgba(255,255,255,0.8); flex-shrink: 0;
+  }
+
+  .sig-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px; font-style: italic; font-weight: 400;
+    color: var(--dark);
+  }
+
+  .sig-role {
+    font-size: 9px; font-weight: 300;
+    letter-spacing: 3px; text-transform: uppercase;
+    color: var(--gold); margin-top: 2px;
+  }
+
+  /* Photo grid right side */
+  .intro-photo-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    grid-template-rows: 200px 200px;
+    gap: 8px;
+  }
+
+  .photo-box {
+    position: relative; overflow: hidden;
+    background: var(--cream2);
+  }
+
+  .photo-box img {
+    width: 100%; height: 100%;
+    object-fit: cover; display: block;
+    transition: transform 0.6s ease;
+  }
+
+  .photo-box:hover img { transform: scale(1.05); }
+
+  /* Placeholder for photos */
+  .photo-placeholder {
+    width: 100%; height: 100%;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 8px; background: var(--cream2);
+    border: 1px dashed var(--light);
+  }
+
+  .photo-placeholder-icon { font-size: 24px; opacity: 0.4; }
+
+  .photo-placeholder-text {
+    font-size: 9px; font-weight: 300;
+    letter-spacing: 2px; text-transform: uppercase;
+    color: var(--light); text-align: center;
+    padding: 0 12px;
+  }
+
+  .photo-box-tall { grid-row: span 2; }
+
+  .photo-label {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    background: linear-gradient(to top, rgba(26,22,16,0.6), transparent);
+    padding: 16px 14px 10px;
+    font-size: 9px; font-weight: 300;
+    letter-spacing: 2px; text-transform: uppercase;
+    color: rgba(255,255,255,0.7);
+  }
+
+  /* ══ ANGEBOTE – full width cards ══ */
+  .angebote { padding: 0 0 100px; background: var(--cream); }
+
+  .angebote-title-row {
+    max-width: 1100px; margin: 0 auto; padding: 0 52px 48px;
+    display: flex; justify-content: space-between; align-items: flex-end;
+  }
+
+  .angebote-grid {
+    max-width: 1100px; margin: 0 auto; padding: 0 52px;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;
+  }
+
+  .angebot {
+    background: var(--cream2); padding: 40px 32px;
+    transition: all 0.3s; position: relative; overflow: hidden;
+  }
+
+  .angebot:hover { background: var(--dark); }
+  .angebot:hover .angebot-title { color: #fff; }
+  .angebot:hover .angebot-text { color: rgba(255,255,255,0.6); }
+  .angebot:hover .angebot-icon { filter: none; opacity: 0.8; }
+
+  .angebot-icon { font-size: 32px; margin-bottom: 20px; display: block; transition: all 0.3s; }
+
+  .angebot-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px; font-weight: 400;
+    color: var(--dark); margin-bottom: 10px;
+    transition: color 0.3s;
+  }
+
+  .angebot-text {
+    font-size: 13px; font-weight: 300;
+    color: var(--mid); line-height: 1.8;
+    transition: color 0.3s;
+  }
+
+  /* ══ VELDEN PHOTO SECTION ══ */
+  .location-section { margin-bottom: 2px; }
+
+  .location-hero {
+    position: relative; height: 70vh; min-height: 480px;
+    overflow: hidden; display: flex; align-items: flex-end;
+  }
+
+  .location-hero-bg {
+    position: absolute; inset: 0;
+    background-size: cover; background-position: center;
+    transition: transform 0.6s ease;
+  }
+
+  .location-section:hover .location-hero-bg { transform: scale(1.02); }
+
+  .velden-bg { background: linear-gradient(135deg, #2c4020 0%, #1e3016 40%, #3a5428 100%); }
+  .spielberg-bg { background: linear-gradient(135deg, #1a1010 0%, #2a1008 40%, #3a1810 100%); }
+
+  .location-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(10,8,6,0.8) 0%, rgba(10,8,6,0.2) 60%, transparent 100%);
+  }
+
+  .location-content {
+    position: relative; z-index: 2;
+    padding: 52px; max-width: 600px;
+  }
+
+  .location-tag {
+    display: inline-block;
+    font-size: 9px; font-weight: 400;
+    letter-spacing: 4px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 14px;
+    border: 1px solid rgba(168,131,74,0.4); padding: 5px 14px;
+  }
+
+  .location-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 5vw, 60px);
+    font-weight: 300; line-height: 1.1;
+    color: #fff; margin-bottom: 12px;
+  }
+
+  .location-name em { font-style: italic; display: block; font-size: 0.65em; color: rgba(255,255,255,0.5); font-weight: 300; }
+
+  .location-desc {
+    font-size: 14px; font-weight: 300;
+    color: rgba(255,255,255,0.6); line-height: 1.8;
+    margin-bottom: 24px;
+  }
+
+  .location-features {
+    display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 28px;
+  }
+
+  .lf-tag {
+    font-size: 9px; font-weight: 300;
+    letter-spacing: 2px; text-transform: uppercase;
+    color: rgba(255,255,255,0.45);
+    border: 1px solid rgba(255,255,255,0.15); padding: 5px 14px;
+  }
+
+  .btn-white {
+    display: inline-block; background: #fff; color: var(--dark);
+    text-decoration: none; font-size: 10px; font-weight: 400;
+    letter-spacing: 3px; text-transform: uppercase;
+    padding: 13px 28px; transition: all 0.3s;
+  }
+
+  .btn-white:hover { background: var(--cream); transform: translateY(-1px); }
+
+  /* Photo strip below location hero */
+  .photo-strip {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    height: 200px;
+  }
+
+  .strip-photo {
+    overflow: hidden; position: relative;
+    background: var(--cream2);
+  }
+
+  .strip-photo img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; display: block; }
+  .strip-photo:hover img { transform: scale(1.08); }
+
+  .strip-placeholder {
+    width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column; gap: 6px;
+    background: var(--cream2); border: 1px dashed var(--light);
+  }
+
+  .strip-placeholder span { font-size: 20px; opacity: 0.3; }
+  .strip-placeholder p { font-size: 8px; font-weight: 300; letter-spacing: 2px; text-transform: uppercase; color: var(--light); }
+
+  /* ══ LISA QUOTE ══ */
+  .lisa-quote-section {
+    padding: 100px 0; background: var(--cream2);
+    border-top: 1px solid var(--border);
+  }
+
+  .lisa-quote-inner {
+    max-width: 800px; margin: 0 auto; padding: 0 52px;
+    text-align: center;
+  }
+
+  .quote-ornament {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 80px; line-height: 0.6;
+    color: var(--gold); opacity: 0.3;
+    display: block; margin-bottom: 8px;
+  }
+
+  .lisa-quote-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(20px, 3vw, 30px);
+    font-weight: 300; font-style: italic;
+    line-height: 1.6; color: var(--dark);
+    margin-bottom: 36px;
+  }
+
+  .lisa-info { display: flex; align-items: center; justify-content: center; gap: 16px; }
+
+  .lisa-avatar-sm {
+    width: 52px; height: 52px; border-radius: 50%;
+    background: var(--green);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px; font-style: italic;
+    color: rgba(255,255,255,0.8); flex-shrink: 0;
+  }
+
+  .lisa-name-sm {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px; font-style: italic;
+    color: var(--dark); text-align: left;
+  }
+
+  .lisa-role-sm {
+    font-size: 9px; font-weight: 300;
+    letter-spacing: 3px; text-transform: uppercase;
+    color: var(--gold); margin-top: 2px; text-align: left;
+  }
+
+  /* ══ BUCHUNG ══ */
+  .buchung { padding: 100px 0; background: var(--cream); }
+
+  .buchung-inner {
+    max-width: 1100px; margin: 0 auto; padding: 0 52px;
+    display: grid; grid-template-columns: 1fr 1.2fr;
+    gap: 80px; align-items: start;
+  }
+
+  .buchung-left-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(28px, 4vw, 44px);
+    font-weight: 300; line-height: 1.2;
+    color: var(--dark); margin-bottom: 16px;
+  }
+
+  .buchung-left-title em { font-style: italic; color: var(--green); }
+
+  .buchung-text {
+    font-size: 14px; font-weight: 300;
+    color: var(--mid); line-height: 1.9; margin-bottom: 28px;
+  }
+
+  .buchung-perks { display: flex; flex-direction: column; gap: 12px; margin-bottom: 32px; }
+
+  .perk { display: flex; align-items: center; gap: 14px; font-size: 13px; font-weight: 300; color: var(--mid); }
+
+  .perk-mark {
+    width: 20px; height: 20px; background: var(--cream2);
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 9px; color: var(--green); flex-shrink: 0;
+  }
+
+  .wa-btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: #25D366; color: #fff;
+    text-decoration: none; font-size: 10px; font-weight: 400;
+    letter-spacing: 2px; text-transform: uppercase;
+    padding: 13px 22px; transition: all 0.3s; border-radius: 2px;
+  }
+
+  .wa-btn:hover { background: #1da851; transform: translateY(-1px); }
+
+  /* Form */
+  .form-card { background: var(--cream2); padding: 44px; border-top: 2px solid var(--gold); }
+
+  .form-card-eyebrow {
+    font-size: 9px; font-weight: 400;
+    letter-spacing: 4px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 6px;
+  }
+
+  .form-card-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px; font-weight: 400; font-style: italic;
+    color: var(--dark); margin-bottom: 28px;
+  }
+
+  .form-fields { display: flex; flex-direction: column; gap: 14px; }
+  .form-group { display: flex; flex-direction: column; gap: 5px; }
+
+  .form-group label {
+    font-size: 9px; font-weight: 400;
+    letter-spacing: 3px; text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  .form-group input,
+  .form-group select {
+    background: var(--cream); border: 1px solid var(--border);
+    color: var(--dark); font-family: 'Jost', sans-serif;
+    font-size: 14px; font-weight: 300;
+    padding: 13px 16px; outline: none;
+    transition: border-color 0.3s; width: 100%; -webkit-appearance: none;
+  }
+
+  .form-group input:focus, .form-group select:focus { border-color: var(--green); }
+  .form-group input::placeholder { color: var(--light); }
+
+  .form-group select {
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%232c4020' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 14px center;
+    background-color: var(--cream);
+  }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+  .form-submit {
+    background: var(--dark); color: var(--cream); border: none;
+    font-family: 'Jost', sans-serif; font-size: 10px; font-weight: 400;
+    letter-spacing: 4px; text-transform: uppercase;
+    padding: 17px; cursor: pointer; width: 100%;
+    transition: all 0.3s; margin-top: 6px;
+  }
+
+  .form-submit:hover { background: var(--green); }
+
+  .success-msg {
+    display: none; background: rgba(44,64,32,0.06);
+    border: 1px solid rgba(44,64,32,0.2);
+    padding: 14px; font-size: 13px; color: var(--green);
+    text-align: center; margin-top: 10px;
+  }
+
+  /* ══ FOOTER ══ */
+  footer {
+    background: var(--dark); padding: 64px 52px 40px;
+  }
+
+  .footer-top {
+    display: grid; grid-template-columns: 1.5fr 1fr 1fr;
+    gap: 48px; margin-bottom: 48px;
+  }
+
+  .footer-brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px; font-weight: 300; font-style: italic;
+    color: #fff; margin-bottom: 12px;
+  }
+
+  .footer-brand-text {
+    font-size: 13px; font-weight: 300;
+    color: rgba(255,255,255,0.35); line-height: 1.8;
+    max-width: 260px;
+  }
+
+  .footer-col-title {
+    font-size: 9px; font-weight: 400;
+    letter-spacing: 4px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 16px;
+  }
+
+  .footer-link {
+    display: block; font-size: 13px; font-weight: 300;
+    color: rgba(255,255,255,0.35); text-decoration: none;
+    margin-bottom: 10px; transition: color 0.2s;
+  }
+
+  .footer-link:hover { color: rgba(255,255,255,0.7); }
+
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding-top: 24px;
+    display: flex; justify-content: space-between;
+    align-items: center; flex-wrap: wrap; gap: 12px;
+  }
+
+  .footer-copy {
+    font-size: 11px; font-weight: 300;
+    color: rgba(255,255,255,0.2);
+  }
+
+  /* ══ MOBILE ══ */
+  @media (max-width: 768px) {
+    nav { padding: 16px 24px; }
+    nav.solid { padding: 12px 24px; }
+    .nav-links { display: none; }
+    .nav-links.open {
+      display: flex; flex-direction: column;
+      position: fixed; top: 60px; left: 0; right: 0;
+      background: rgba(245,239,228,0.97); padding: 20px;
+      border-bottom: 1px solid var(--border); gap: 4px;
+    }
+    .nav-links.open a { color: var(--mid) !important; }
+    .hamburger { display: flex; }
+    .hero-content { left: 24px; right: 24px; bottom: 60px; flex-direction: column; gap: 16px; }
+    .slide-counter, .slide-label { display: none; }
+    .intro-inner { grid-template-columns: 1fr; padding: 0 24px; gap: 48px; }
+    .intro-photo-grid { grid-template-rows: 160px 160px; }
+    .angebote-title-row { padding: 0 24px 36px; flex-direction: column; align-items: flex-start; gap: 16px; }
+    .angebote-grid { grid-template-columns: 1fr; padding: 0 24px; }
+    .location-content { padding: 32px 24px; }
+    .photo-strip { grid-template-columns: 1fr 1fr; height: 160px; }
+    .lisa-quote-inner { padding: 0 24px; }
+    .buchung-inner { grid-template-columns: 1fr; padding: 0 24px; gap: 48px; }
+    .form-row { grid-template-columns: 1fr; }
+    footer { padding: 48px 24px 32px; }
+    .footer-top { grid-template-columns: 1fr; gap: 32px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">Gästehaus Steiner</a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#angebote" onclick="closeNav()">Angebote</a></li>
+    <li><a href="#locations" onclick="closeNav()">Locations</a></li>
+    <li><a href="#buchung" onclick="closeNav()" class="nav-book">Anfragen</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger" onclick="toggleNav()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO SLIDESHOW -->
+<section class="hero">
+
+  <!-- SLIDES – ersetze background-image mit deinen echten Fotos -->
+  <!-- Beispiel: style="background-image: url('foto1.jpg')" -->
+  <div class="slide slide-1 active" id="slide-0"
+       style="background-image: url('HIER_FOTO_1_EINFÜGEN')">
+  </div>
+  <div class="slide slide-2" id="slide-1"
+       style="background-image: url('HIER_FOTO_2_EINFÜGEN')">
+  </div>
+  <div class="slide slide-3" id="slide-2"
+       style="background-image: url('HIER_FOTO_3_EINFÜGEN')">
+  </div>
+  <div class="slide slide-4" id="slide-3"
+       style="background-image: url('HIER_FOTO_4_EINFÜGEN')">
+  </div>
+
+  <div class="hero-overlay"></div>
+
+  <div class="hero-content">
+    <div class="hero-text-block">
+      <div class="hero-eyebrow">Velden am Wörthersee · Spielberg</div>
+      <h1 class="hero-title">
+        Traumhafte Auszeiten
+        <em>in Österreich.</em>
+      </h1>
+      <p class="hero-sub">
+        Erlebe erholsame Tage am Wörthersee mit Pferden, Natur und persönlicher Gastfreundschaft –
+        oder die Energie des Red Bull Rings direkt vor der Tür.
+      </p>
+      <div class="hero-actions">
+        <a href="#buchung" class="btn-gold-solid">Jetzt anfragen</a>
+        <a href="#locations" class="btn-light">Locations entdecken</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide dots -->
+  <div class="slide-dots" id="slideDots">
+    <div class="dot active" onclick="goToSlide(0)"></div>
+    <div class="dot" onclick="goToSlide(1)"></div>
+    <div class="dot" onclick="goToSlide(2)"></div>
+    <div class="dot" onclick="goToSlide(3)"></div>
+  </div>
+
+  <!-- Counter -->
+  <div class="slide-counter">
+    <div class="sc-current" id="slideNum">01</div>
+    <div class="sc-total">— 04</div>
+  </div>
+
+  <div class="slide-label">Gästehaus Steiner · Österreich</div>
+</section>
+
+<!-- INTRO -->
+<section class="intro">
+  <div class="intro-inner">
+    <div class="reveal">
+      <div class="intro-eyebrow">Herzlich willkommen</div>
+      <h2 class="intro-title">
+        Mehr als nur<br>
+        <em>eine Unterkunft.</em>
+      </h2>
+      <p class="intro-text">
+        Bei Lisa Steiner erwartet dich ein Aufenthalt der unter die Haut geht.
+        Rustikales Flair, persönliche Betreuung und zwei außergewöhnliche Locations –
+        am traumhaften Wörthersee und in der Steiermark, direkt am Red Bull Ring.
+      </p>
+      <div class="intro-sig">
+        <div class="sig-avatar">L</div>
+        <div>
+          <div class="sig-name">Lisa Steiner</div>
+          <div class="sig-role">Inhaberin · Gästehaus Steiner</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Photo grid – ersetze mit echten Fotos -->
+    <div class="intro-photo-grid reveal d2">
+      <div class="photo-box photo-box-tall">
+        <!-- <img src="FOTO_HIER" alt="Gästehaus Steiner"> -->
+        <div class="photo-placeholder">
+          <span class="photo-placeholder-icon">🏡</span>
+          <p class="photo-placeholder-text">Foto Gästehaus<br>hier einfügen</p>
+        </div>
+        <div class="photo-label">Gästehaus · Velden</div>
+      </div>
+      <div class="photo-box">
+        <div class="photo-placeholder">
+          <span class="photo-placeholder-icon">🐴</span>
+          <p class="photo-placeholder-text">Foto Pferde<br>hier einfügen</p>
+        </div>
+        <div class="photo-label">Pferde & Natur</div>
+      </div>
+      <div class="photo-box">
+        <div class="photo-placeholder">
+          <span class="photo-placeholder-icon">🍳</span>
+          <p class="photo-placeholder-text">Foto Frühstück<br>hier einfügen</p>
+        </div>
+        <div class="photo-label">Frühstücksbuffet</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ANGEBOTE -->
+<section class="angebote" id="angebote">
+  <div class="angebote-title-row">
+    <div>
+      <div class="intro-eyebrow reveal">Was dich erwartet</div>
+      <h2 class="intro-title reveal d1" style="margin-bottom:0;">Alles für deinen<br><em>perfekten Aufenthalt.</em></h2>
+    </div>
+    <a href="#buchung" class="btn-gold-solid reveal d2">Jetzt buchen</a>
+  </div>
+  <div class="angebote-grid">
+    <div class="angebot reveal d1">
+      <span class="angebot-icon">🛏️</span>
+      <div class="angebot-title">Bed & Breakfast</div>
+      <div class="angebot-text">Starte deinen Tag mit unserem regionalen Frühstücksbuffet – frisch, reichhaltig und liebevoll zubereitet.</div>
+    </div>
+    <div class="angebot reveal d2">
+      <span class="angebot-icon">🐴</span>
+      <div class="angebot-title">Urlaub mit Pferd</div>
+      <div class="angebot-text">Offenstall-Boxen, große Koppeln und traumhaftes Ausreitgebiet – deine Lieblinge sind herzlich willkommen.</div>
+    </div>
+    <div class="angebot reveal d3">
+      <span class="angebot-icon">🎉</span>
+      <div class="angebot-title">Private Events</div>
+      <div class="angebot-text">Geburtstage, Feiern, Private Brunch – unsere Locations sind die perfekte Kulisse für besondere Momente.</div>
+    </div>
+    <div class="angebot reveal d1">
+      <span class="angebot-icon">🏡</span>
+      <div class="angebot-title">Apartments & Zimmer</div>
+      <div class="angebot-text">Komfortabel eingerichtete Apartments mit rustikalem Charme – zum Wohlfühlen und Ankommen.</div>
+    </div>
+    <div class="angebot reveal d2">
+      <span class="angebot-icon">🐾</span>
+      <div class="angebot-title">Haustiere willkommen</div>
+      <div class="angebot-text">Dein Vierbeiner kommt einfach mit – wir heißen alle Tiere herzlich willkommen.</div>
+    </div>
+    <div class="angebot reveal d3">
+      <span class="angebot-icon">🏎️</span>
+      <div class="angebot-title">Red Bull Ring · Spielberg</div>
+      <div class="angebot-text">Formel 1, Moto GP, DTM – unser Gästehaus in Spielberg liegt nur 5 Minuten vom Red Bull Ring entfernt.</div>
+    </div>
+  </div>
+</section>
+
+<!-- LOCATIONS -->
+<div id="locations">
+
+  <!-- VELDEN -->
+  <div class="location-section">
+    <div class="location-hero">
+      <div class="location-hero-bg velden-bg"
+           style="background-image: url('HIER_VELDEN_HAUPTFOTO')">
+      </div>
+      <div class="location-overlay"></div>
+      <div class="location-content reveal">
+        <div class="location-tag">Standort 01 · Kärnten</div>
+        <h2 class="location-name">
+          Steiner Apartments
+          <em>Velden am Wörthersee</em>
+        </h2>
+        <p class="location-desc">
+          Traumvilla mit rustikalem Flair – umgeben von Natur, Stille und dem türkisblauen Wörthersee.
+          Ideal für Erholung, Reiten und unvergessliche Auszeiten.
+        </p>
+        <div class="location-features">
+          <span class="lf-tag">Pferde & Reiten</span>
+          <span class="lf-tag">Wörthersee</span>
+          <span class="lf-tag">Apartments</span>
+          <span class="lf-tag">Natur & Wandern</span>
+        </div>
+        <a href="#buchung" class="btn-white">Jetzt anfragen</a>
+      </div>
+    </div>
+    <!-- Photo strip Velden – 4 Fotos -->
+    <div class="photo-strip">
+      <div class="strip-photo">
+        <!-- <img src="VELDEN_FOTO_1" alt=""> -->
+        <div class="strip-placeholder"><span>🌊</span><p>Foto einfügen</p></div>
+      </div>
+      <div class="strip-photo">
+        <div class="strip-placeholder"><span>🐴</span><p>Foto einfügen</p></div>
+      </div>
+      <div class="strip-photo">
+        <div class="strip-placeholder"><span>🏡</span><p>Foto einfügen</p></div>
+      </div>
+      <div class="strip-photo">
+        <div class="strip-placeholder"><span>🌿</span><p>Foto einfügen</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SPIELBERG -->
+  <div class="location-section">
+    <div class="location-hero">
+      <div class="location-hero-bg spielberg-bg"
+           style="background-image: url('HIER_SPIELBERG_HAUPTFOTO')">
+      </div>
+      <div class="location-overlay"></div>
+      <div class="location-content reveal">
+        <div class="location-tag">Standort 02 · Steiermark</div>
+        <h2 class="location-name">
+          Gästehaus Spielberg
+          <em>5 Min. vom Red Bull Ring</em>
+        </h2>
+        <p class="location-desc">
+          Charmante Villa in der Steiermark – das perfekte Basislager für Motorsport-Events,
+          Wandern und Erholung in der steirischen Natur.
+        </p>
+        <div class="location-features">
+          <span class="lf-tag">Red Bull Ring</span>
+          <span class="lf-tag">Formel 1 & Moto GP</span>
+          <span class="lf-tag">Wanderwege & Natur</span>
+          
+          <span class="lf-tag">Frühstücksbuffet</span>
+        </div>
+        <a href="#buchung" class="btn-white">Jetzt anfragen</a>
+      </div>
+    </div>
+    <!-- Photo strip Spielberg -->
+    <div class="photo-strip">
+      <div class="strip-photo">
+        <div class="strip-placeholder"><span>🏎️</span><p>Foto einfügen</p></div>
+      </div>
+      <div class="strip-photo">
+        <div class="strip-placeholder"><span>🏠</span><p>Foto einfügen</p></div>
+      </div>
+      <div class="strip-photo">
+        <div class="strip-placeholder"><span>🍳</span><p>Foto einfügen</p></div>
+      </div>
+      <div class="strip-photo">
+        <div class="strip-placeholder"><span>🥾</span><p>Foto einfügen</p></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- LISA QUOTE -->
+<section class="lisa-quote-section">
+  <div class="lisa-quote-inner">
+    <span class="quote-ornament reveal">"</span>
+    <p class="lisa-quote-text reveal d1">
+      Mein Name ist Lisa Steiner & ich darf seit 2024 das schöne Gästehaus in Velden am Wörthersee betreiben. Seit 2025 gehört auch die charmante Villa in Spielberg zu uns. Ich freue mich euch persönlich kennenzulernen!
+    </p>
+    <div class="lisa-info reveal d2">
+      <div class="lisa-avatar-sm">L</div>
+      <div>
+        <div class="lisa-name-sm">Lisa Steiner</div>
+        <div class="lisa-role-sm">Inhaberin · Gästehaus Steiner</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BUCHUNG -->
+<section class="buchung" id="buchung">
+  <div class="buchung-inner">
+    <div class="reveal">
+      <div class="intro-eyebrow" style="margin-bottom:12px;">Anfrage & Buchung</div>
+      <h2 class="buchung-left-title">
+        Wir freuen uns<br>
+        <em>auf deinen Besuch.</em>
+      </h2>
+      <p class="buchung-text">
+        Schreib uns mit deinem Wunschtermin – Lisa meldet sich persönlich und schnell bei dir.
+      </p>
+      <div class="buchung-perks">
+        <div class="perk"><div class="perk-mark">✓</div>Antwort innerhalb von 24 Stunden</div>
+        <div class="perk"><div class="perk-mark">✓</div>Online-Buchung verfügbar</div>
+        <div class="perk"><div class="perk-mark">✓</div>Pferde & Haustiere auf Anfrage</div>
+        <div class="perk"><div class="perk-mark">✓</div>Events & Feiern möglich</div>
+      </div>
+      <a href="https://wa.me/43XXXXXXXXX" class="wa-btn" target="_blank">💬 &nbsp; WhatsApp an Lisa</a>
+    </div>
+    <div class="form-card reveal d2">
+      <div class="form-card-eyebrow">Buchungsanfrage</div>
+      <div class="form-card-title">Erzähl uns von deinen Plänen.</div>
+      <div class="form-fields">
+        <div class="form-row">
+          <div class="form-group"><label>Vorname</label><input type="text" placeholder="Vorname"></div>
+          <div class="form-group"><label>Nachname</label><input type="text" placeholder="Nachname"></div>
+        </div>
+        <div class="form-group"><label>E-Mail</label><input type="email" placeholder="deine@email.at"></div>
+        <div class="form-group">
+          <label>Location</label>
+          <select>
+            <option value="">Bitte wählen</option>
+            <option>Steiner Apartments – Velden am Wörthersee</option>
+            <option>Gästehaus – Spielberg (Red Bull Ring)</option>
+            <option>Beides – ich möchte mich beraten lassen</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Anreise</label><input type="date"></div>
+          <div class="form-group"><label>Abreise</label><input type="date"></div>
+        </div>
+        <div class="form-group">
+          <label>Anlass</label>
+          <select>
+            <option value="">Reiseanlass wählen</option>
+            <option>Erholungsurlaub & Natur</option>
+            <option>Urlaub mit Pferd</option>
+            <option>Motorsport Event (Formel 1 / Moto GP)</option>
+            <option>Wandern & Natur</option>
+            <option>Private Feier / Event</option>
+            <option>Sonstiges</option>
+          </select>
+        </div>
+        <button class="form-submit" onclick="submitForm()">Anfrage senden →</button>
+        <div class="success-msg" id="successMsg">✓ Danke! Lisa meldet sich bald persönlich bei dir.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand">Gästehaus Steiner</div>
+      <p class="footer-brand-text">Herzliche Gastfreundschaft an zwei traumhaften Locations – Velden am Wörthersee und Spielberg in der Steiermark.</p>
+    </div>
+    <div>
+      <div class="footer-col-title">Locations</div>
+      <a href="#" class="footer-link">Steiner Apartments – Velden</a>
+      <a href="#" class="footer-link">Gästehaus Spielberg</a>
+    </div>
+    <div>
+      <div class="footer-col-title">Rechtliches</div>
+      <a href="#" class="footer-link">Impressum</a>
+      <a href="#" class="footer-link">Datenschutz</a>
+      <a href="#" class="footer-link">Online-Buchung</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2025 Gästehaus Steiner · Lisa Steiner</div>
+    <div class="footer-copy">Velden am Wörthersee · Spielberg, Steiermark</div>
+  </div>
+</footer>
+
+<script>
+  // Nav
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('solid', window.scrollY > 80);
+  });
+
+  function toggleNav() { document.getElementById('navLinks').classList.toggle('open'); }
+  function closeNav() { document.getElementById('navLinks').classList.remove('open'); }
+
+  // Slideshow
+  let current = 0;
+  const slides = document.querySelectorAll('.slide');
+  const dots = document.querySelectorAll('.dot');
+  const nums = ['01','02','03','04'];
+
+  function goToSlide(n) {
+    slides[current].classList.remove('active');
+    dots[current].classList.remove('active');
+    current = n;
+    slides[current].classList.add('active');
+    dots[current].classList.add('active');
+    document.getElementById('slideNum').textContent = nums[current];
+  }
+
+  setInterval(() => {
+    goToSlide((current + 1) % slides.length);
+  }, 5000);
+
+  // Scroll reveal
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+  // Form
+  function submitForm() {
+    const msg = document.getElementById('successMsg');
+    msg.style.display = 'block';
+    setTimeout(() => { msg.style.display = 'none'; }, 5000);
+  }
+</script>
+</body>
+</html>
